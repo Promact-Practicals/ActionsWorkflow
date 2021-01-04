@@ -1,11 +1,10 @@
 name: Android CI
 
 on:
-  pull_request:
-    branches:
+  push:
+    branches: 
       - master
       - dev
-    types: [closed]
 
 jobs:
   build:
@@ -35,11 +34,11 @@ jobs:
     # Generate Dev APK
     - name: Generate Dev APK
       run: ./gradlew assembleDevRelease
-      if: github.base_ref == dev
+      if: github.base_ref == 'dev'
     # Generate Production APK
     - name: Generate Production APK
       run: ./gradlew assembleProdRelease
-      if: github.base_ref == master
+      if: github.base_ref == 'master'
     # Artifact the Generated APK
     - name: Artifact the APK
       uses: actions/upload-artifact@v2
