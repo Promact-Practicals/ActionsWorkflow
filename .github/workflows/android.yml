@@ -1,10 +1,8 @@
 name: Android CI
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
-    branches: [ master ]
+    branches: [ dev, master ]
 
 jobs:
   build:
@@ -31,9 +29,14 @@ jobs:
     # Grant permission to Gradle
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    # Generate APK
-    - name: Generate APK
-      run: ./gradlew assembleRelease
+    # Generate Dev APK
+    - name: Generate Dev APK
+      run: ./gradlew assembleDevRelease
+      if: ${{ github.base_ref == "dev" }}
+    # Generate Production APK
+    - name: Generate Production APK
+      run: ./gradlew assembleProdRelease
+      if: ${{ github.base_ref == "master" }}
     # Artifact the Generated APK
     - name: Artifact the APK
       uses: actions/upload-artifact@v2
