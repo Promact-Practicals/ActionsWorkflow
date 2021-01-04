@@ -28,7 +28,7 @@ android {
             applicationIdSuffix ".dev"
         }
         prod {
-            applicationIdSuffix ".main"
+            applicationIdSuffix ".prod"
         }
     }
     compileOptions {
