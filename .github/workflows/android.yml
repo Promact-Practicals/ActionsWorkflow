@@ -40,5 +40,5 @@ jobs:
       with:
         name: my-artifact
         path: |
-          *.apk
-          *.aab
+          **/*.apk
+          **/*.aab
