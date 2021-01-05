@@ -34,7 +34,7 @@ jobs:
     # Generate Dev APK
     - name: Generate Dev APK
       run: ./gradlew assembleDevRelease
-      if: ${GITHUB_REF} == 'refs/heads/dev'
+      if: github.ref == 'refs/heads/dev'
     # Generate Production APK
     - name: Generate Production APK
       run: ./gradlew assembleProdRelease
