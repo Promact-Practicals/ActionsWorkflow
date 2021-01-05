@@ -31,6 +31,13 @@ jobs:
     # Grant permission to Gradle
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+    # Update Version Code and Version number
+    - name: Bump version
+      uses: chkfung/android-version-actions@v1.1
+      with:
+        gradlePath: app/build.gradle
+        versionCode: ${{github.run_number}}
+        versionName: '1.0.${GITHUB_RUN_NUMBER}'
     # Generate Dev APK
     - name: Generate Dev APK
       run: ./gradlew assembleDevRelease
