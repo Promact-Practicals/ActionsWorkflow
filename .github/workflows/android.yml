@@ -37,7 +37,7 @@ jobs:
       with:
         gradlePath: app/build.gradle
         versionCode: ${{github.run_number}}
-        versionName: '1.0.${GITHUB_RUN_NUMBER}'
+        versionName: '1.0.${{github.run_number}}'
     # Generate Dev APK
     - name: Generate Dev APK
       run: ./gradlew assembleDevRelease
