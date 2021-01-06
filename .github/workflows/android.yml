@@ -46,11 +46,19 @@ jobs:
     - name: Generate Production APK
       run: ./gradlew assembleProdRelease
       if: github.ref == 'refs/heads/master'
+    # Sign APK
+    - uses: r0adkll/sign-android-release@v1
+      name: Sign app APK
+      id: sign_app
+      with:
+        releaseDirectory: app/build/outputs/apk/**/release
+        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+        alias: ${{ secrets.KEYSTORE_ALIAS }}
+        keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+        keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
     # Artifact the Generated APK
     - name: Artifact the APK
       uses: actions/upload-artifact@v2
       with:
         name: my-artifact
-        path: |
-          **/*.apk
-          **/*.aab
+        path: ${{steps.sign_app.outputs.signedReleaseFile}}
