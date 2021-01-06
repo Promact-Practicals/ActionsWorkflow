@@ -36,46 +36,37 @@ jobs:
         gradlePath: app/build.gradle
         versionCode: ${{github.run_number}}
         versionName: '1.0.${{github.run_number}}'
-  
-  BuildDevApp:
-    if: github.ref == 'refs/heads/dev'
-    runs-on: ubuntu-latest
-    steps:
+    
     # Generate Dev APK
     - name: Generate Dev APK
       run: ./gradlew assembleDevRelease
+      if: github.ref == 'refs/heads/dev'
     # Sign APK
     - uses: r0adkll/sign-android-release@v1
       name: Sign app APK
-      id: sign_app
       with:
         releaseDirectory: app/build/outputs/apk/dev/release
         signingKeyBase64: ${{ secrets.SIGNING_KEY }}
         alias: ${{ secrets.KEYSTORE_ALIAS }}
         keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
         keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
-  
-  BuildProdcutionApp:
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
-    steps:
+      if: github.ref == 'refs/heads/dev'
+    
     # Generate Production APK
     - name: Generate Production APK
       run: ./gradlew assembleProdRelease
+      if: github.ref == 'refs/heads/master'
     # Sign APK
     - uses: r0adkll/sign-android-release@v1
       name: Sign app APK
-      id: sign_app
+      if: github.ref == 'refs/heads/master'
       with:
         releaseDirectory: app/build/outputs/apk/prod/release
         signingKeyBase64: ${{ secrets.SIGNING_KEY }}
         alias: ${{ secrets.KEYSTORE_ALIAS }}
         keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
         keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
-  
-  ArtifactAPK:  
-    runs-on: ubuntu-latest
-    steps:
+    
     # Artifact the Generated APK
     - name: Artifact the APK
       uses: actions/upload-artifact@v2
@@ -84,3 +75,4 @@ jobs:
         path: |
           **/*.apk
           **/*.aab
+    
