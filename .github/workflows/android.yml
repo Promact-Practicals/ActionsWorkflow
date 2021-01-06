@@ -42,20 +42,20 @@ jobs:
     - name: Generate Dev APK
       run: |
         ./gradlew assembleDevRelease
-        echo "releasePath=app/build/outputs/apk/dev/release"
+        echo "releasePath=app/build/outputs/apk/dev/release" >> $GITHUB_ENV
       if: github.ref == 'refs/heads/dev'
     # Generate Production APK
     - name: Generate Production APK
       run: |
         ./gradlew assembleProdRelease
-        echo "releasePath=app/build/outputs/apk/prod/release"
+        echo "releasePath=app/build/outputs/apk/prod/release" >> $GITHUB_ENV
       if: github.ref == 'refs/heads/master'
     # Sign APK
     - uses: r0adkll/sign-android-release@v1
       name: Sign app APK
       id: sign_app
       with:
-        releaseDirectory: $RELEASE_APK_PATH
+        releaseDirectory: $releasePath
         signingKeyBase64: ${{ secrets.SIGNING_KEY }}
         alias: ${{ secrets.KEYSTORE_ALIAS }}
         keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
