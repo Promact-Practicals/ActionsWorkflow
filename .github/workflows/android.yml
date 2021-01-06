@@ -40,16 +40,16 @@ jobs:
         versionName: '1.0.${{github.run_number}}'
     # Generate Dev APK
     - name: Generate Dev APK
-      run: ./gradlew assembleDevRelease
+      run: |
+        ./gradlew assembleDevRelease
+        echo "releasePath=app/build/outputs/apk/dev/release"
       if: github.ref == 'refs/heads/dev'
-      env:
-        RELEASE_APK_PATH: 'app/build/outputs/apk/dev/release' 
     # Generate Production APK
     - name: Generate Production APK
-      run: ./gradlew assembleProdRelease
+      run: |
+        ./gradlew assembleProdRelease
+        echo "releasePath=app/build/outputs/apk/prod/release"
       if: github.ref == 'refs/heads/master'
-      env:
-        RELEASE_APK_PATH: 'app/build/outputs/apk/prod/release'
     # Sign APK
     - uses: r0adkll/sign-android-release@v1
       name: Sign app APK
