@@ -35,9 +35,11 @@ android {
     productFlavors {
         dev {
             applicationIdSuffix ".dev"
+            resValue "string", "app_name", "AppFlow-Dev"
         }
         prod {
             applicationIdSuffix ".prod"
+            resValue "string", "app_name", "AppFlow"
         }
     }
     compileOptions {
