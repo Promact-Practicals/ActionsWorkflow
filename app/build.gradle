@@ -1,19 +1,28 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'testfairy'
 }
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
     flavorDimensions "deafult"
+    signingConfigs {
+        release {
+            storeFile file(System.getenv('KEYSTOREPATH'))
+            storePassword System.getenv("KEYSTORE_PASSWORD")
+            keyAlias System.getenv("KEYSTORE_ALIAS")
+            keyPassword System.getenv("KEYSTORE_PASSWORD")
+        }
+    }
     defaultConfig {
         applicationId "com.promact.appworkflow"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
+        signingConfig signingConfigs.release
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -50,4 +59,8 @@ dependencies {
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
+
+testfairyConfig {
+    apiKey System.getenv("TESTFAIRY_API_KEY")
 }
